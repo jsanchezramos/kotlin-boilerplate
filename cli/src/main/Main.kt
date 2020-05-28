@@ -1,17 +1,13 @@
-import io.ktor.application.call
-import io.ktor.http.ContentType
-import io.ktor.response.respondText
-import io.ktor.routing.get
-import io.ktor.routing.routing
+import injection.moduleApi
+import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.koin.core.context.startKoin
 
 fun main(args: Array<String>) {
-    embeddedServer(Netty, 8080) {
-        routing {
-            get("/") {
-                call.respondText("My Example Blog", ContentType.Text.Html)
-            }
-        }
-    }.start(wait = true)
+    startKoin {
+        modules(moduleApi)
+    }
+
+    embeddedServer(Netty, commandLineEnvironment(args)).start()
 }

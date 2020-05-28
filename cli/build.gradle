@@ -1,12 +1,19 @@
 buildscript {
     ext.kotlin_version = '1.3.70'
     ext.ktor_version = '1.3.2'
+    ext.koin_version = '2.1.5'
+    ext.jackson_version = "2.9.10"
 }
 
 dependencies {
     implementation project(":core")
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-jackson:$ktor_version"
+    compile "org.koin:koin-ktor:$koin_version"
     compile "ch.qos.logback:logback-classic:1.2.3"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile "io.ktor:ktor-server-test-host:$ktor_version"
+    testCompile "org.koin:koin-test:$koin_version"
 }
