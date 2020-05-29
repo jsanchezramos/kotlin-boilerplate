@@ -54,6 +54,7 @@ allprojects {
 
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
         testCompile "junit:junit:4.12"
         testImplementation "org.mockito:mockito-core:2.19.0"
         testImplementation "org.amshove.kluent:kluent:1.40"
