@@ -1,4 +1,4 @@
-package healthz.application
+package com.alice.boilerplate.healthz.application
 
 class HealthService {
     fun execute(): String {

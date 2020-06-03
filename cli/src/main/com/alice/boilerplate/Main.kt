@@ -1,4 +1,6 @@
-import injection.moduleApi
+package com.alice.boilerplate
+
+import com.alice.boilerplate.injection.moduleApi
 import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty

@@ -9,6 +9,7 @@ buildscript {
         kotlinVersion = '1.3.70'
         ktor_version = '1.3.2'
         klint_version = "9.2.1"
+        johnrengelman_version = "5.2.0"
     }
     repositories {
         maven {
@@ -25,8 +26,9 @@ buildscript {
 
 plugins {
     id 'jacoco'
-    id 'application'
     id 'org.jlleitschuh.gradle.ktlint' version "$klint_version"
+    id 'com.github.johnrengelman.shadow' version "$johnrengelman_version"
+    id 'java'
 }
 
 
@@ -39,6 +41,9 @@ allprojects {
     }
 
     apply plugin: 'kotlin'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'java'
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
 
     compileKotlin {
         kotlinOptions {
@@ -66,5 +71,17 @@ subprojects {
     sourceSets {
         main.kotlin.srcDirs += 'src/main'
         test.kotlin.srcDirs += 'src/test'
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+ktlint {
+    debug = false
+    verbose = false
+    reporters {
+        reporter "plain"
     }
 }
