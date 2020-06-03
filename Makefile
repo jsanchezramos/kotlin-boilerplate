@@ -9,7 +9,7 @@ help ::
 
 run :: ## Run service
 	@echo "  > Starting service"
-	@g./gradlew run --console plain
+	@./gradlew run --console plain
 
 check :: ## Check everything is ok to move forward within next pipeline step
 	@echo "  > Checking conventions and code standards"
