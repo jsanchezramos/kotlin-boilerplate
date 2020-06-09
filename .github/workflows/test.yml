@@ -20,3 +20,11 @@ jobs:
       run: chmod +x gradlew
     - name: Gradle run test
       run: make test
+    - name: Report test
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+        make report
+        ./cc-test-reporter format-coverage ${{github.workspace}}/build/reports/jacoco/report/report.xml --input-type jacoco
+        ./cc-test-reporter upload-coverage
