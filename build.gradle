@@ -45,10 +45,6 @@ allprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply plugin: 'jacoco'
 
-    jacoco {
-        toolVersion = "0.8.5"
-    }
-
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
@@ -72,21 +68,35 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'jacoco'
+
+    def coverageSourceDirs = [
+            'src/main/java'
+    ]
+
+    jacoco {
+        toolVersion = "0.8.5"
+    }
+    jacocoTestReport {
+
+        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+        classDirectories =  files(sourceSets.main.output)
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+
+        reports {
+
+            csv.enabled false
+            xml.enabled true
+        }
+    }
+
+    test.finalizedBy(project.tasks.jacocoTestReport)
+
     sourceSets {
         main.kotlin.srcDirs += 'src/main'
         test.kotlin.srcDirs += 'src/test'
     }
 
-    jacocoTestReport {
-        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
-        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-        classDirectories =  files(sourceSets.main.output)
-        reports {
-            html.enabled = true
-            xml.enabled = true
-            csv.enabled = false
-        }
-    }
 }
 
 ktlint {
@@ -94,24 +104,27 @@ ktlint {
     verbose = false
 }
 
-task report(type: JacocoReport) {
+task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
 
+    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(subprojects.sourceSets.main.output)
     dependsOn = subprojects.test
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
     sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories =  files(subprojects.sourceSets.main.output)
-    subprojects.each {
-        sourceSets it.sourceSets.main
-    }
 
     reports {
-        xml.enabled true
-        html.enabled false
-        csv.enabled false
-    }
-}
 
-report.dependsOn {
-    subprojects*.test
+        csv.enabled false
+        xml.enabled true
+    }
+
+    onlyIf = {
+        true
+    }
+
+    doFirst {
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+    }
 }
