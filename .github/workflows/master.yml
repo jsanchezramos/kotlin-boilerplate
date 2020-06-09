@@ -1,11 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test
+name: Master
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  pull_request:
+  push:
+    branches:
+      - master
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -20,3 +22,11 @@ jobs:
       run: chmod +x gradlew
     - name: Gradle run test
       run: make test
+    - name: publish code coverage
+      uses: paambaati/codeclimate-action@v2.6.0
+      env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        # The report file must be there, otherwise Code Climate won't find it
+        coverageCommand: make report
+        coverageLocations: ${{github.workspace}}/build/reports/jacoco/report/report.xml:jacoco
