@@ -31,6 +31,9 @@ plugins {
     id 'java'
 }
 
+jacoco {
+    toolVersion = "0.8.5"
+}
 
 group = 'kotlin-boilerplate'
 version = '1.0-SNAPSHOT'
