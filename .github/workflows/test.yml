@@ -25,6 +25,6 @@ jobs:
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         chmod +x ./cc-test-reporter
         ./cc-test-reporter before-build
-        make report
+        ./gradlew clean build test jacocoTestReport report
         ./cc-test-reporter format-coverage ${{github.workspace}}/build/reports/jacoco/report/report.xml --input-type jacoco
         ./cc-test-reporter upload-coverage
