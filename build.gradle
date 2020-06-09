@@ -31,10 +31,6 @@ plugins {
     id 'java'
 }
 
-jacoco {
-    toolVersion = "0.8.5"
-}
-
 group = 'kotlin-boilerplate'
 version = '1.0-SNAPSHOT'
 
@@ -48,6 +44,10 @@ allprojects {
     apply plugin: 'java'
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = "0.8.5"
+    }
 
     compileKotlin {
         kotlinOptions {
@@ -76,6 +76,17 @@ subprojects {
         main.kotlin.srcDirs += 'src/main'
         test.kotlin.srcDirs += 'src/test'
     }
+
+    jacocoTestReport {
+        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+        classDirectories =  files(sourceSets.main.output)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
 }
 
 ktlint {
@@ -85,8 +96,11 @@ ktlint {
 
 task report(type: JacocoReport) {
 
+    dependsOn = subprojects.test
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-
+    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories =  files(subprojects.sourceSets.main.output)
     subprojects.each {
         sourceSets it.sourceSets.main
     }
@@ -98,25 +112,6 @@ task report(type: JacocoReport) {
     }
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(
-                    dir: it,
-                    exclude: [
-                            '**/package/internalrpc/**',
-                            '**/package/other/**',
-                            '**/SomeGrpc*.class',
-                            '**/SomeOuterClass*.class'
-                    ]
-            )
-        })
-    }
-}
 report.dependsOn {
     subprojects*.test
 }
