@@ -6,13 +6,10 @@ name: CI
 # events but only for the master branch
 on:
   pull_request:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -23,3 +20,11 @@ jobs:
       run: chmod +x gradlew
     - name: Gradle run test
       run: make test
+    - name: publish code coverage
+      uses: paambaati/codeclimate-action@v2.6.0
+      env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        # The report file must be there, otherwise Code Climate won't find it
+        coverageCommand: make report
+        coverageLocations: ${{github.workspace}}/build/reports/jacoco/report/report.xml:jacoco
