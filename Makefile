@@ -23,6 +23,10 @@ test :: ## Execute test suite (unit, acceptance, integration, benchmark, perform
 	@echo "  > Executing tests"
 	@./gradlew test --console plain
 
+report :: ## report coverage
+	@echo "  > Executing report"
+	@./gradlew report --console plain
+
 build :: ## Build a binary in current path
 	@echo "  > Building jar"
 	@./gradlew shadowJar --console plain
