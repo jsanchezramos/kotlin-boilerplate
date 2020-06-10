@@ -1,6 +1,6 @@
 package com.alice.boilerplate.injection
 
-import com.alice.boilerplate.healthz.application.HealthService
+import com.alice.healthz.application.HealthService
 import com.alice.boilerplate.heatlhz.ApiHealth
 import org.koin.dsl.module
 
