@@ -1,0 +1,46 @@
+{
+  "ci_service": {
+    "branch": "test-reporter",
+    "build_identifier": "",
+    "build_url": "",
+    "commit_sha": "8917af4353c9d68f4e2d32ce772b844e1cb303f1",
+    "committed_at": 1591779289,
+    "name": ""
+  },
+  "environment": {
+    "gem_version": "2.5.2.3",
+    "package_version": "",
+    "pwd": "/Users/juan.sanchez/development/personal/kotlin-boilerplate",
+    "prefix": "/Users/juan.sanchez/development/personal/kotlin-boilerplate",
+    "rails_root": "",
+    "reporter_version": "0.6.3",
+    "simplecov_root": ""
+  },
+  "git": {
+    "branch": "test-reporter",
+    "head": "8917af4353c9d68f4e2d32ce772b844e1cb303f1",
+    "committed_at": 1591779289
+  },
+  "covered_percent": 100,
+  "covered_strength": 0,
+  "line_counts": {
+    "missed": 0,
+    "covered": 2,
+    "total": 2
+  },
+  "source_files": [
+    {
+      "blob_id": "52979f8706d45e89c16520991c2a68f067d8e05d",
+      "coverage": "[null,null,3,null,2]",
+      "covered_percent": 100,
+      "covered_strength": 2.5,
+      "line_counts": {
+        "missed": 0,
+        "covered": 2,
+        "total": 2
+      },
+      "name": "core/src/main/com/alice/healthz/application/HealthService.kt"
+    }
+  ],
+  "repo_token": ""
+}
