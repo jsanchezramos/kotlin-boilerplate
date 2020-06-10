@@ -16,7 +16,7 @@ check :: ## Check everything is ok to move forward within next pipeline step
 	@./gradlew ktlintcheck --console plain
 
 format :: ## Formats and standarizes code following conventions
-	@echo "  > Formatting code"d
+	@echo "  > Formatting code"
 	@./gradlew ktlintformat --console plain
 
 test :: ## Execute test suite (unit, acceptance, integration, benchmark, performance or whatever is needed)
