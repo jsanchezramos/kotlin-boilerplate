@@ -63,9 +63,6 @@ allprojects {
     }
 
     test {
-        jacoco {
-            exclude("*equals", "*hashCode")
-        }
         finalizedBy jacocoTestReport // report is always generated after tests run
     }
 
