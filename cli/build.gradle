@@ -26,3 +26,8 @@ dependencies {
 }
 
 mainClassName = 'com.alice.boilerplate.MainKt'
+
+jar {
+    manifest { attributes 'Main-Class': mainClassName }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

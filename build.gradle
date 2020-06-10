@@ -57,10 +57,40 @@ allprojects {
         }
     }
 
+    jacoco {
+        toolVersion = "0.8.5"
+        reportsDir = file("$buildDir/codeclimete")
+    }
+
+    test {
+        jacoco {
+            exclude("*equals", "*hashCode")
+        }
+        finalizedBy jacocoTestReport // report is always generated after tests run
+    }
+
+
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+        reports {
+            xml.enabled true
+            csv.enabled false
+            html.enabled true
+        }
+        afterEvaluate {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        '**/*KtorApplicationExt**'
+                ])
+            })
+        }
+    }
+
+
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib"
-        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-        testCompile "junit:junit:4.12"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+        testImplementation "junit:junit:4.12"
         testImplementation "org.mockito:mockito-core:2.19.0"
         testImplementation "org.amshove.kluent:kluent:1.40"
         testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
@@ -68,63 +98,13 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'jacoco'
-
-    def coverageSourceDirs = [
-            'src/main/java'
-    ]
-
-    jacoco {
-        toolVersion = "0.8.5"
-    }
-    jacocoTestReport {
-
-        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
-        classDirectories =  files(sourceSets.main.output)
-        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-
-        reports {
-
-            csv.enabled false
-            xml.enabled true
-        }
-    }
-
-    test.finalizedBy(project.tasks.jacocoTestReport)
-
     sourceSets {
         main.kotlin.srcDirs += 'src/main'
         test.kotlin.srcDirs += 'src/test'
     }
-
 }
 
 ktlint {
     debug = false
     verbose = false
-}
-
-task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-
-    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(subprojects.sourceSets.main.output)
-    dependsOn = subprojects.test
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-
-    reports {
-
-        csv.enabled false
-        xml.enabled true
-    }
-
-    onlyIf = {
-        true
-    }
-
-    doFirst {
-        executionData = files(executionData.findAll {
-            it.exists()
-        })
-    }
 }
