@@ -1,5 +1,4 @@
 # This is a basic workflow to help you get started with Actions
-
 name: Master
 
 # Controls when the action will run. Triggers the workflow on push or pull request
@@ -21,13 +20,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Report test
-          run: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-            ./gradlew clean build test jacocoRootReport
-            ./cc-test-reporter format-coverage ${{github.workspace}}/core/build/codeclimete/test/jacocoTestReport.xml --input-type jacoco
-            ./cc-test-reporter upload-coverage
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+          ./gradlew clean build test jacocoRootReport
+          ./cc-test-reporter format-coverage ${{github.workspace}}/core/build/codeclimete/test/jacocoTestReport.xml --input-type jacoco
+          ./cc-test-reporter upload-coverage
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           JACOCO_SOURCE_PATH: "core/src/main"
