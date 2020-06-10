@@ -1,0 +1,11 @@
+version: "2"
+checks:
+  method-lines:
+    config:
+      threshold: 100
+  similar-code:
+    config:
+      threshold: 90
+  identical-code:
+    config:
+      threshold: # language-specific defaults
