@@ -1,5 +1,4 @@
 # This is a basic workflow to help you get started with Actions
-
 name: Master
 
 # Controls when the action will run. Triggers the workflow on push or pull request
@@ -30,5 +29,6 @@ jobs:
             ./cc-test-reporter upload-coverage
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          JACOCO_SOURCE_PATH: "core/src/main"
           JACOCO_SOURCE_PATH: "core/src/main"
 
